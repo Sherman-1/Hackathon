@@ -6,4 +6,4 @@ git clone https://github.com/alexdobin/STAR.git
 cd STAR/source
 make STAR
 %environment
-export PATH=/home/bin:$PATH
+export PATH=/STAR/source:$PATH
