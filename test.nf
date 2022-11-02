@@ -91,7 +91,7 @@ process index {
     publishDir "results/genome_index/"
     
     input:
-    file (genome) from ch_genome
+    file (genome) from ch_genome.collect()
 
     output:
     path "ref" into ch_ref
