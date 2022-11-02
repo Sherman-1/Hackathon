@@ -52,7 +52,7 @@ process fastqDump {
     
     
     """    
-    prefetch ${sraid} && fastq-dump --gzip --split-files ${sraid}
+    fasterq-dump --split-files ${sraid}
     """
 }
 
@@ -98,7 +98,7 @@ process index {
 
     script:
     """
-    STAR --runMode genomeGenerate \
+    STAR --runMode genomeGenerate --runThreadN 4\
     --genomeDir ref/ \
     --genomeFastaFiles ${genome}
     """
