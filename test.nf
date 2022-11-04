@@ -48,7 +48,7 @@ process fastqDump {
     val sraid from sample
     
     output:
-    tuple val(sraid), file("*1.fastq.gz"), file("*2.fastq.gz") into ch_fastq2
+    tuple val(sraid), file("*1.fastq"), file("*2.fastq") into ch_fastq2
     
     
     """    
