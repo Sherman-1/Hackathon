@@ -98,7 +98,7 @@ process index {
 
     script:
     """
-    STAR --runMode genomeGenerate --runThreadN 4\
+    STAR --runMode genomeGenerate --runThreadN $task.cpus\
     --genomeDir ref/ \
     --genomeFastaFiles ${genome}
     """
