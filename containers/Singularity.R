@@ -36,3 +36,14 @@ From: ubuntu:20.04
 	R -e "library('ggplot2')"
 
 
+%runscript
+
+
+	R -e 'library("DESeq2")'
+
+
+
+
+
+
+
