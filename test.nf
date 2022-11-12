@@ -48,7 +48,7 @@ process fastqDump {
     val sraid from sample
     
     output:
-    tuple val(sraid), file("*1.fastq.gz"), file("*2.fastq.gz") into ch_fastq2
+    tuple val(sraid), file("*1.fastq"), file("*2.fastq") into ch_fastq2
     
     
     """    
@@ -91,14 +91,14 @@ process index {
     publishDir "results/genome_index/"
     
     input:
-    file (genome) from ch_genome
+    file (genome) from ch_genome.collect()
 
     output:
     path "ref" into ch_ref
 
     script:
     """
-    STAR --runMode genomeGenerate --runThreadN 4\
+    STAR --runMode genomeGenerate --runThreadN $task.cpus\
     --genomeDir ref/ \
     --genomeFastaFiles ${genome}
     """
