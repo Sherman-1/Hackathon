@@ -154,10 +154,29 @@ process samtoolsIndex {
     file bam from ch_bam
  
     output:
-    file("${bam}.bai")
+    file("${bam}.bai") into ch_samtools
  
     script:
     """
     samtools index ${bam} 
     """
+}
+
+
+process countingReads{
+    publishDir "results/featureCounts/"
+
+    input:
+    file indexbam from ch_samtools.collect()
+    file gtf from ch_annot
+
+    output:
+    file "counts.txt"
+
+    script:
+    """
+    featureCounts -T ${task.cpus} -t gene -g gene_id -s 0 -a $gtf -o matrice_featureCounts.txt ${indexbam}
+
+    """
+
 }
