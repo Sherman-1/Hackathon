@@ -2,44 +2,11 @@
 
 //Données externes
 
-sample = Channel.of("SRR628588", "SRR628589")
+sample = Channel.of("SRR628582","SRR628583","SRR628584","SRR628585","SRR628586","SRR628587","SRR628588", "SRR628589")
 
 chr = Channel.of("1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16" , "17", "18", "19", "20", "21", "22", "MT", "X", "Y")
 
 gtf_URL="ftp://ftp.ensembl.org/pub/release-101/gtf/homo_sapiens/Homo_sapiens.GRCh38.101.chr.gtf.gz"
-
-/*
-process downloadFastq{
-	publishDir "data/SRA/"
-
-	input:
-	val sraid from sample
-
-	output:
-	tuple val(sraid), file("${sraid}.sra") into ch_fastq1
-
-	
-	"""
-    wget -O ${sraid}.sra https://sra-downloadb.be-md.ncbi.nlm.nih.gov/sos1/srapub/${sraid}
-	"""
-}
-
-process fastqDump {
-    publishDir "data/fastq/"
-    
-    input:
-    tuple val(sraid), file("${sraid}.sra") from ch_fastq1
-    
-    output:
-    tuple val(sraid), file("*1.fastq.gz"), file("*2.fastq.gz") into ch_fastq2
-    
-    
-    """    
-    fastq-dump --gzip --split-files ${sraid}.sra
-    """
-}
-*/
-
 
 process fastqDump {
     publishDir "data/fastq/"
@@ -98,7 +65,7 @@ process index {
 
     script:
     """
-    STAR --runMode genomeGenerate --runThreadN $task.cpus\
+    STAR --runMode genomeGenerate --runThreadN 20\
     --genomeDir ref/ \
     --genomeFastaFiles ${genome}
     """
@@ -128,22 +95,11 @@ process mapping {
     path index from ch_ref
  
     output:
-    file "${srr}.bam" into ch_bam
+    file "${srr}.bam" into(ch_bam, ch_count)
  
     script:
     """
-    STAR --outSAMstrandField intronMotif \
-        --outFilterMismatchNmax 4 \
-        --outFilterMultimapNmax 10 \
-        --genomeDir ${index} \
-        --readFilesIn <(gunzip -c ${r1}) <(gunzip -c ${r2}) \
-        --runThreadN 4 \
-        --outSAMunmapped None \
-        --outSAMtype BAM SortedByCoordinate \
-        --outStd BAM_SortedByCoordinate \
-        --genomeLoad NoSharedMemory \
-        --outFileNamePrefix ${srr} 
-        > ${srr}.bam    
+    STAR --outSAMstrandField intronMotif --outFilterMismatchNmax 4 --outFilterMultimapNmax 10 --genomeDir ${index} --readFilesIn ${r1} ${r2} --runThreadN 20 --outSAMunmapped None --outSAMtype BAM SortedByCoordinate --outStd BAM_SortedByCoordinate --genomeLoad NoSharedMemory --outFileNamePrefix ${srr} > ${srr}.bam    
     """
 }
 
@@ -167,15 +123,15 @@ process countingReads{
     publishDir "results/featureCounts/"
 
     input:
-    file indexbam from ch_samtools.collect()
+    file indexbam from ch_count.collect()
     file gtf from ch_annot
 
     output:
-    file "counts.txt"
+    file "matrice_featureCounts.txt"
 
     script:
     """
-    featureCounts -T ${task.cpus} -t gene -g gene_id -s 0 -a $gtf -o matrice_featureCounts.txt ${indexbam}
+    featureCounts -T 20 -t gene -g gene_id -s 0 -a $gtf -o matrice_featureCounts.txt ${indexbam}
 
     """
 
