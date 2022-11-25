@@ -1,25 +1,18 @@
 #!/usr/bin/env nextflow
 
-//Données externes
-
-sample = Channel.of("SRR628582","SRR628583","SRR628584","SRR628585","SRR628586","SRR628587","SRR628588", "SRR628589")
-
-chr = Channel.of("1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16" , "17", "18", "19", "20", "21", "22", "MT", "X", "Y")
-
-gtf_URL="ftp://ftp.ensembl.org/pub/release-101/gtf/homo_sapiens/Homo_sapiens.GRCh38.101.chr.gtf.gz"
+nextflow.enable.dsl=2
 
 process fastqDump {
     publishDir "data/fastq/"
-    
+
     input:
-    val sraid from sample
+        val samples
     
     output:
-    tuple val(sraid), file("*1.fastq"), file("*2.fastq") into ch_fastq2
-    
+        tuple val(samples), file("*1.fastq"), file("*2.fastq")
     
     """    
-    fasterq-dump --split-files ${sraid}
+    fasterq-dump --split-files ${sample}
     """
 }
 
@@ -37,7 +30,6 @@ process extractAllGenome {
     wget -O ${chromosome}.fa.gz ftp://ftp.ensembl.org/pub/release-101/fasta/homo_sapiens/dna/Homo_sapiens.GRCh38.dna.chromosome.${chromosome}.fa.gz
     """
 }
-
 
 process assembleGenome {
     publishDir "data/genome/"
@@ -118,7 +110,6 @@ process samtoolsIndex {
     """
 }
 
-
 process countingReads{
     publishDir "results/featureCounts/"
 
@@ -134,5 +125,13 @@ process countingReads{
     featureCounts -T 20 -t gene -g gene_id -s 0 -a $gtf -o matrice_featureCounts.txt ${indexbam}
 
     """
+
+}
+
+workflow {
+
+    samples = Channel.fromList(params.samples)
+
+    fastqDump(sample)
 
 }
