@@ -12,7 +12,7 @@ process fastqDump {
         tuple val(samples), file("*1.fastq"), file("*2.fastq")
     
     """    
-    fasterq-dump --split-files ${sample}
+    fasterq-dump --split-files ${samples}
     """
 }
 
@@ -20,11 +20,10 @@ process extractAllGenome {
 	publishDir "data/genome/"
 
     input:
-    val chromosome from chr
+        val chromosome
     
     output:
-    file "${chromosome}.fa.gz" into ch_chr
-    
+        file("${chromosome}.fa.gz")  
     
     """
     wget -O ${chromosome}.fa.gz ftp://ftp.ensembl.org/pub/release-101/fasta/homo_sapiens/dna/Homo_sapiens.GRCh38.dna.chromosome.${chromosome}.fa.gz
@@ -131,7 +130,8 @@ process countingReads{
 workflow {
 
     samples = Channel.fromList(params.samples)
-
-    fastqDump(sample)
+    chromosome = Channel.fromList(params.chr)
+    fastqDump(samples)
+    extractAllGenome(chromosome)
 
 }
