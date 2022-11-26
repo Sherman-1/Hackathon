@@ -21,12 +21,13 @@ process extractAllGenome {
 
     input:
         val chromosome
-    
+        val genome_URL
+
     output:
-        file("${chromosome}.fa.gz")  
+        path "${chromosome}.fa.gz"  //ch_chr
     
     """
-    wget -O ${chromosome}.fa.gz ftp://ftp.ensembl.org/pub/release-101/fasta/homo_sapiens/dna/Homo_sapiens.GRCh38.dna.chromosome.${chromosome}.fa.gz
+    wget -O ${chromosome}.fa.gz ${genome_URL}.${chromosome}.fa.gz
     """
 }
 
@@ -34,31 +35,32 @@ process assembleGenome {
     publishDir "data/genome/"
 
     input:
-    file '*.fa.gz' from ch_chr.collect()
+    path fasta //file('*.fa.gz') from ch_chr.collect()
 		
     output: 
-    file "genome.fa" into ch_genome
+    path "genome.fa" // ch_genome
     
     script:
     """
-    gunzip -c *.fa.gz > genome.fa
+    gunzip -c ${fasta} > genome.fa
     """
 }
 
 process index {
     publishDir "results/genome_index/"
-    
+    cpus 20
+
     input:
-    file (genome) from ch_genome.collect()
+    path genome //from ch_genome.collect()
 
     output:
-    path "ref" into ch_ref
+    path "ref" //into ch_ref
 
     script:
     """
-    STAR --runMode genomeGenerate --runThreadN 20\
+    STAR --runMode genomeGenerate --runThreadN ${task.cpus}\
     --genomeDir ref/ \
-    --genomeFastaFiles ${genome}
+    --genomeFastaFiles (gunzip -c ${genome})
     """
 }
 
@@ -132,6 +134,7 @@ workflow {
     samples = Channel.fromList(params.samples)
     chromosome = Channel.fromList(params.chr)
     fastqDump(samples)
-    extractAllGenome(chromosome)
-
+    extractAllGenome(chromosome, params.genome_URL)
+    assembleGenome(extractAllGenome.out.collect())
+    index(assembleGenome.out.collect())
 }
