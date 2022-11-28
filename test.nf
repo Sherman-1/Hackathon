@@ -68,10 +68,10 @@ process extractGFF{
     publishDir "data/genome_annotation/"
     
     input:
-    val gtfURL from gtf_URL
+    val gtfURL //from gtf_URL
     
     output:
-    file "annot.gtf" into ch_annot
+    path "annot.gtf" //into ch_annot
     
     script:
     """
@@ -81,18 +81,20 @@ process extractGFF{
 }
 
 process mapping {
+    cpus = 18
+
     publishDir "data/bam/"
 
     input:
-    tuple val(srr), file(r1), file(r2) from ch_fastq2
-    path index from ch_ref
+    tuple val(srr), file(r1), file(r2) //from ch_fastq2
+    path index //from ch_ref
  
     output:
-    file "${srr}.bam" into(ch_bam, ch_count)
+    path "${srr}.bam" //into(ch_bam, ch_count)
  
     script:
     """
-    STAR --outSAMstrandField intronMotif --outFilterMismatchNmax 4 --outFilterMultimapNmax 10 --genomeDir ${index} --readFilesIn ${r1} ${r2} --runThreadN 20 --outSAMunmapped None --outSAMtype BAM SortedByCoordinate --outStd BAM_SortedByCoordinate --genomeLoad NoSharedMemory --outFileNamePrefix ${srr} > ${srr}.bam    
+    STAR --outSAMstrandField intronMotif --outFilterMismatchNmax 4 --outFilterMultimapNmax 10 --genomeDir ${index} --readFilesIn ${r1} ${r2} --runThreadN ${task.cpus} --outSAMunmapped None --outSAMtype BAM SortedByCoordinate --outStd BAM_SortedByCoordinate --genomeLoad NoSharedMemory --outFileNamePrefix ${srr} > ${srr}.bam    
     """
 }
 
@@ -100,10 +102,10 @@ process samtoolsIndex {
     publishDir "data/bam_index/"
 
     input:
-    file bam from ch_bam
+    file bam //from ch_bam
  
     output:
-    file("${bam}.bai") into ch_samtools
+    path "${bam}.bai" // into ch_samtools
  
     script:
     """
@@ -112,18 +114,19 @@ process samtoolsIndex {
 }
 
 process countingReads{
+    cpus = 20
     publishDir "results/featureCounts/"
 
     input:
-    file indexbam from ch_count.collect()
-    file gtf from ch_annot
+    path indexbam //from ch_count.collect()
+    path gtf // from ch_annot
 
     output:
-    file "matrice_featureCounts.txt"
+    path "matrice_featureCounts.txt"
 
     script:
     """
-    featureCounts -T 20 -t gene -g gene_id -s 0 -a $gtf -o matrice_featureCounts.txt ${indexbam}
+    featureCounts -T ${task.cpus} -t gene -g gene_id -s 0 -a $gtf -o matrice_featureCounts.txt ${indexbam}
 
     """
 
@@ -137,4 +140,8 @@ workflow {
     extractAllGenome(chromosome, params.genome_URL)
     assembleGenome(extractAllGenome.out.collect())
     index(assembleGenome.out.collect())
+    extractGFF(params.gtf_URL)
+    mapping(fastqDump.out, index.out)
+    samtoolsIndex(mapping.out)
+    countingReads(mapping.out.collect(), extractGFF.out)
 }
