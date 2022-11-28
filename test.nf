@@ -60,7 +60,7 @@ process index {
     """
     STAR --runMode genomeGenerate --runThreadN ${task.cpus}\
     --genomeDir ref/ \
-    --genomeFastaFiles (gunzip -c ${genome})
+    --genomeFastaFiles ${genome}
     """
 }
 
