@@ -1,0 +1,8 @@
+# zou les logs
+*.log*
+
+#les trucs rendus après test de run nextflow
+.nextflow/
+
+#les reports
+report.html*
