@@ -31,6 +31,23 @@ cd containers
 
 cd featurecounts
 echo -e "FeatureCounts:"
-singularity build featcount.sif Singularity.sratoolkit --fakeroot
+singularity build featcount.sif Singularity.featcount --fakeroot
+cd ..
+
+cd samtools
+echo -e "Samtools:"
+singularity build samtools.sif Singularity.samtools --fakeroot
+cd ..
+
+cd sratoolkit
+echo -e "SRAtoolkit:"
+singularity build sra.sif Singularity.sratoolkit --fakeroot
+cd ..
+
+cd Star
+echo -e "STAR:"
+singularity build star.sif Singularity.star_nb --fakeroot
+cd ..
+
 
 echo "Vive les DOGGOS"
