@@ -44,7 +44,7 @@ echo -e "SRAtoolkit:"
 singularity build --fakeroot sra.sif Singularity.sratoolkit 
 cd ..
 
-cd Star
+cd star
 echo -e "STAR:"
 singularity build --fakeroot star.sif Singularity.star_nb 
 cd ..
