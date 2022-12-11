@@ -33,24 +33,24 @@ Afin de faire tourner notre pipeline, **1000000Gb DE RAM ET 300 COEURS**, ainsi 
 6) **Analyse statistique** des résultats (***DESeq2***).
 
 L'ensemble des données et des résultats peuvent être retrouvés dans l'arborescence ci-dessous: ( CE N4EST PAS LE BON OFC A CHANGER)
-```bash
+``` bash
 .
+├── bin
+│   └── DE_analysis.R
 ├── containers
-│   ├── Singularity.fastqc
-│   ├── Singularity.featcount
+│   ├── featurecounts
+│   │   └── Singularity.featcount
+│   ├── samtools
+│   │   └── Singularity.samtools
 │   ├── Singularity.R
-│   ├── Singularity.samtools
-│   ├── Singularity.sratoolkit
-│   ├── Singularity.star
-│   ├── Singularity.star_nb
-│   └── temp
-├── init_VM.sh
+│   ├── sratoolkit
+│   │   └── Singularity.sratoolkit
+│   └── star
+│       └── Singularity.star_nb
 ├── nextflow.config
 ├── README.md
-├── sratoolkit.Dockerfile
-├── star.Dockerfile
-├── test.nf
-
+├── run.sh
+└── workflow.nf
 ```
 
 
