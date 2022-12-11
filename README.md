@@ -8,7 +8,6 @@ Les données RNA-seq de ces deux papiers sont disponibles en open-access : [**Do
 L'objectif de ces deux article est d'étudier les expression de gènes, et notamment le gène SF3B1, d'individus atteint de mélanome ulvéal. Harbour *et al.* affirment que le gène SF3B1 est muté, pour des données exomiques, mais est générallement présente dans des tumeurs bénignes avec un bon taux de survie des patients.  Furney *et al.* montrent que, en réutilisant le même jeu de données qu'il existe une association entre la mutation SF3B1 et plusieurs types d'épissage alternatif : rétention d'introns, épissage sur site cryptiques et epissage en site 3' alternatif, ce qui rendrait cette mutation potentiellement à l'origine du développement cancereux. 
 
 A l'aide d'un workflow Nextflow et de containers Singularity, notre groupe a tenté de comprendre pourquoi les résultats des deux articles divergent, et quelles sont nos propres observations sur le sujet. 
-# NOTRE CONCLU A NOUS
 
 ## **Pré-requis:** Nextflow & Singularity
 Afin de faire tourner notre pipeline, **64 Gb de RAM et 16 coeurs**, ainsi que deux logiciels sont nécessaires:  
@@ -65,7 +64,7 @@ Le fichier `run.sh` permet d'initialiser votre environnement, ainsi que de crée
 ```
 Verifiez que les répertoires ont bien été créés. Si c'est le cas, vous pouvez lancer le pipeline :
 ```bash
-    nextflow run main.nf
+    nextflow run workflow.nf
 ```
 ### Options d'execution
 En plus de la commande par défaut, vous pouvez utiliser les paramètres suivant
