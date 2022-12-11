@@ -30,7 +30,9 @@ Afin de faire tourner notre pipeline, **64 Gb de RAM et 16 coeurs**, ainsi que d
 5) **Comptage** des séquences exprimées (***featureCounts***).
 6) **Analyse statistique** des résultats (***DESeq2***).
 
-L'ensemble des données et des résultats peuvent être retrouvés dans l'arborescence ci-dessous: ( CE N4EST PAS LE BON OFC A CHANGER)
+L'ensemble des données et des résultats peuvent être retrouvés dans l'arborescence ci-dessous:
+
+*Avant execution du workflow:*
 ``` bash
 .
 ├── bin
