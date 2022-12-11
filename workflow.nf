@@ -141,7 +141,7 @@ process DESeq{
     path count_matrix
     
     output:
-    path Results
+    path Figures
     
     script:
     """
