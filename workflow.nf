@@ -169,7 +169,7 @@ workflow {
     mapping(fastqDump.out, index.out)
     samtoolsIndex(mapping.out)
     countingReads(mapping.out.collect(), extractGFF.out)
-    result_paths = DESeq(DESeq_script_path, countingReads.out)
-    
-    
+    results_paths = DESeq(DESeq_script_path, countingReads.out)
+    results_path.view()
+
 }
