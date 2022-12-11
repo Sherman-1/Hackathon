@@ -5,14 +5,13 @@ Ce projet vise à reproduire une partie des résultats de deux articles:
 - [Harbour *et al.*, Nature Genetics (2013)](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC3789378/)
 
 Les données RNA-seq de ces deux papiers sont disponibles en open-access : [**Données NCBI**](https://www.ncbi.nlm.nih.gov/sra?term=SRA062359). Dans un premier temps, seul l'étude de transcriptome est étudié. </br> 
-L'objectif de ces deux article est d'étudier les expression de gènes, et notamment le gène SF3B1, d'individus atteint de mélanome ulvéal. 
-# ECRIRE ICI CONCLU DES ARTICLES
+L'objectif de ces deux article est d'étudier les expression de gènes, et notamment le gène SF3B1, d'individus atteint de mélanome ulvéal. Harbour *et al.* affirment que le gène SF3B1 est muté, pour des données exomiques, mais est générallement présente dans des tumeurs bénignes avec un bon taux de survie des patients.  Furney *et al.* montrent que, en réutilisant le même jeu de données qu'il existe une association entre la mutation SF3B1 et plusieurs types d'épissage alternatif : rétention d'introns, épissage sur site cryptiques et epissage en site 3' alternatif, ce qui rendrait cette mutation potentiellement à l'origine du développement cancereux. 
 
 A l'aide d'un workflow Nextflow et de containers Singularity, notre groupe a tenté de comprendre pourquoi les résultats des deux articles divergent, et quelles sont nos propres observations sur le sujet. 
 # NOTRE CONCLU A NOUS
 
 ## **Pré-requis:** Nextflow & Singularity
-Afin de faire tourner notre pipeline, **1000000Gb DE RAM ET 300 COEURS**, ainsi que deux logiciels sont nécessaires:  
+Afin de faire tourner notre pipeline, **64 Gb de RAM et 16 coeurs**, ainsi que deux logiciels sont nécessaires:  
 - Nextflow (version 21.10.6.5660) [*installation*](https://www.nextflow.io/docs/latest/getstarted.html)
 - Singularity (version 3.8.7) [*installation*](https://docs.sylabs.io/guides/3.0/user-guide/installation.html)
 - uidmap (pour la construction des containers Singularity)
@@ -57,7 +56,7 @@ L'ensemble des données et des résultats peuvent être retrouvés dans l'arbore
 ## **Execution du workflow**
 Si les pré-requis sont bien satisfaits, placez-vous dans le repertoire voulu et récupérez les le projet
 ```bash
-    git clone https://github.com/Sherman-1/Hackaton (A CHANGER ATTENTION LE NOM)
+    git clone https://github.com/Sherman-1/Hackathon
     cd Hackathon
 ```
 Le fichier `run.sh` permet d'initialiser votre environnement, ainsi que de créer les images singularity
