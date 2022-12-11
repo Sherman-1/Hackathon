@@ -22,7 +22,8 @@ Afin de faire tourner notre pipeline, **1000000Gb DE RAM ET 300 COEURS**, ainsi 
 ```
 
 ## **Le pipeline:**
- Mettre ici le DAG
+ ![image](https://user-images.githubusercontent.com/75751225/206907177-60bd1d6f-84ae-4c55-a9e2-80cc1f44a2a7.png)
+
 
 1) **Téléchargement des données** : chromosomes humains (dont chromosome mitochondrial), annotation du génome et données RNA-seq des 8 individus (***sratoolkit***). 
 2) **Indexation** du génome (***STAR***).
