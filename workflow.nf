@@ -166,7 +166,7 @@ workflow {
     index(assembleGenome.out.collect())
     extractGFF(params.gtf_URL)
     mapping(fastqDump.out, index.out)
-    //samtoolsIndex(mapping.out)
+    samtoolsIndex(mapping.out) #not needed : BAI outputs
     countingReads(mapping.out.collect(), extractGFF.out)
     results_path = DESeq(DESeq_script_path, countingReads.out)
     results_path.view()
