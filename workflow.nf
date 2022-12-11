@@ -114,7 +114,7 @@ process samtoolsIndex {
 }
 
 process countingReads{
-    cpus counting_cpus
+    cpus params.counting_cpus
     publishDir "results/featureCounts/"
 
     input:
