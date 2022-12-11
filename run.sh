@@ -24,7 +24,7 @@ fi
 echo -e "OK"
 
 echo -e "\e[1;103;30m---------------------------------------------------------------------------------\e[0m"
-echo -e "\e[1;103;30m|   2 : Creation des images                                             |\e[0m"
+echo -e "\e[1;103;30m|   2 : Creation des images                                                     |\e[0m"
 echo -e "\e[1;103;30m---------------------------------------------------------------------------------\e[0m"
 
 cd containers
@@ -50,4 +50,9 @@ singularity build star.sif Singularity.star_nb --fakeroot
 cd ..
 
 
-echo "Vive les DOGGOS"
+echo -e "\e[1;103;30m---------------------------------------------------------------------------------\e[0m"
+echo -e "\e[1;103;30m|   Terminé!                                                                    |\e[0m"
+echo -e "\e[1;103;30m---------------------------------------------------------------------------------\e[0m"
+
+
+echo -e "VOs images ont bien été crées, vous pouvez lancer le pipeline!"
