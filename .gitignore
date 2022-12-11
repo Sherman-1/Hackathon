@@ -1,8 +1,6 @@
-# zou les logs
+# fichiers cachés obtenus après lancement du pipeline
 *.log*
-
-#les trucs rendus après test de run nextflow
 .nextflow/
 
-#les reports
+# les reports potentiellement dedamndés
 report.html*
