@@ -4,7 +4,7 @@ Ce projet vise à reproduire une partie des résultats de deux articles:
 - [Furney *et al.*, Cancer Discovery (2013)](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC5321577/)
 - [Harbour *et al.*, Nature Genetics (2013)](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC3789378/)
 
-Les données RNA-seq de ces deux papiers sont disponibles en open-access : [**Données NCBI**](https://www.ncbi.nlm.nih.gov/sra?term=SRA062359). Dans un premier temps, seul l'étude de transcriptome est étudié. </br> 
+Les données RNA-seq de ces deux papiers sont disponibles en open-access : [**Données NCBI**](https://www.ncbi.nlm.nih.gov/sra?term=SRA062359). Dans un premier temps, seul l'étude de transcriptome est étudiée. </br> 
 L'objectif de ces deux articles est d'étudier les expression de gènes, et notamment le gène SF3B1, d'individus atteint de mélanome uvéal. Harbour *et al.* affirment que le gène SF3B1 est muté, pour des données exomiques, mais est généralement présente dans des tumeurs bénignes avec un bon taux de survie des patients.  Furney *et al.* montrent que, en réutilisant le même jeu de données qu'il existe une association entre la mutation SF3B1 et plusieurs types d'épissage alternatif : rétention d'introns, épissage sur sites cryptiques et epissage en site 3' alternatif, ce qui rendrait cette mutation potentiellement à l'origine du développement cancéreux. 
 
 A l'aide d'un workflow Nextflow et de *containers* Singularity, notre groupe a tenté de comprendre pourquoi les résultats des deux articles divergent, et quelles sont nos propres observations sur le sujet. 
