@@ -76,7 +76,7 @@ volcano <- function(alpha = 0.05, res) {
   abline(v=c(-1,1), col="brown")
   abline(h=-log10(alpha), col="brown")
   
-  de_genes <- abs(res$log2FoldChange) > 2 & res$padj < alpha 
+  de_genes <- abs(res$log2FoldChange) > 1 & res$padj < alpha 
   text(res$log2FoldChange[de_genes],
        -log10(res$padj)[de_genes],
        lab=rownames(res)[de_genes ], cex=0.4)
@@ -99,7 +99,7 @@ dev.off()
 # List all differentially expressed genes
 
 genes = rownames(res)
-de_genes <- abs(res$log2FoldChange) > 2 & res$padj < 0.05 
+de_genes <- abs(res$log2FoldChange) > 1 & res$padj < 0.05 
 de_genes = genes[de_genes]
 # Some genes do not fall into conditions and thus return NA
 de_genes = de_genes[!is.na(de_genes)]
