@@ -17,7 +17,7 @@ process fastqDump {
 }
 
 process extractAllGenome {
-	publishDir "data/genome/"
+    publishDir "data/genome/"
 
     input:
         val chromosome
@@ -48,7 +48,7 @@ process assembleGenome {
 
 process index {
     publishDir "results/genome_index/"
-    cpus 20
+    cpus params.index_cpus
 
     input:
     path genome //from ch_genome.collect()
@@ -81,7 +81,7 @@ process extractGFF{
 }
 
 process mapping {
-    cpus = 18
+    cpus params.mapping_cpus
 
     publishDir "data/bam/"
 
@@ -114,7 +114,7 @@ process samtoolsIndex {
 }
 
 process countingReads{
-    cpus = 20
+    cpus counting_cpus
     publishDir "results/featureCounts/"
 
     input:
@@ -134,7 +134,7 @@ process countingReads{
 
 
 process DESeq{
-
+    publishDir "results/Figures/"
 
     input:
     path DESeq_script
@@ -154,7 +154,6 @@ process DESeq{
 
 
 
-
 workflow {
 
     DESeq_script_path = Channel.fromPath("bin/DE_analysis.R")
@@ -167,7 +166,7 @@ workflow {
     index(assembleGenome.out.collect())
     extractGFF(params.gtf_URL)
     mapping(fastqDump.out, index.out)
-    samtoolsIndex(mapping.out)
+    //samtoolsIndex(mapping.out)
     countingReads(mapping.out.collect(), extractGFF.out)
     results_path = DESeq(DESeq_script_path, countingReads.out)
     results_path.view()
