@@ -145,7 +145,7 @@ process DESeq{
     
     script:
     """
-    mkdir Results
+    mkdir Figures
     Rscript --vanilla ${DESeq_script} "${count_matrix}" 
     """
 
